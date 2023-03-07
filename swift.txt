@@ -1,0 +1,592 @@
+
+
+typealias:
+typealias SmallIntAlias = UInt16
+let min = SmallIntAlias.min
+print(min) //0
+
+tuples:
+
+// tuples
+print("Tuples:")
+let complex1 = (1.0, -2.0)
+
+//access by index
+let real1 = complex1.0
+let imag1 = complex1.1
+print("\(real1), \(imag1)")
+
+//decompose
+let (real2, imag2) = complex1
+print("\(real2), \(imag2)")
+
+
+//underscore ignore values
+let color = ("Green", 822, 0)
+let (name, code, _) = color
+print("name: \(name), code: \(code)")
+
+//name elements
+let id = (name: "iftee", roll:1807002)
+let name = id.name
+let roll = id.roll
+print("name is \(name) and roll: \(roll)")
+
+
+
+
+
+class:
+
+class Person {
+    var name: String?
+    var age: Int = 0
+}
+
+var matteo = Person()
+let madbat = matteo
+
+madbat.name = "Madbat"
+//matteo.name
+print(madbat.name!) //unwrapping
+print(matteo.name!) //unwrapping
+if matteo === madbat //compare references === or !==
+{ 
+    print("true")
+}
+
+
+method of class:
+
+class Counter {
+    var count = 0
+    func increment() {
+        count += 1
+    }
+    func increment(by amount: Int) {
+        count += amount
+    }
+    func reset() {
+        count = 0
+    }
+    func add(toAdd: Int) {
+        count += toAdd
+    }
+}
+
+var counter = Counter()
+counter.increment()
+var x = counter.count
+print(x)
+
+counter.increment(by: 5)
+print(counter.count)
+
+counter.reset()
+print(counter.count)
+
+counter.add(toAdd: 78)
+print(counter.count)
+
+*
+class calculations {
+   let a: Int
+   let b: Int
+   let res: Int
+
+   init(a: Int, b: Int) {
+      self.a = a
+      self.b = b
+      res = a + b
+   }
+   
+   func tot(c: Int) -> Int {
+      return res - c
+   }
+   
+   func result() {
+      print("Result is: \(tot(c: 20))")
+      print("Result is: \(tot(c: 50))")
+   }
+}
+let pri = calculations(a: 600, b: 300)
+pri.result()
+
+output:
+Result is: 880
+Result is: 850
+
+
+*
+struct area {
+   var length = 1
+   var breadth = 1
+   func area() -> Int {
+      return length * breadth
+   }
+   mutating func scaleBy(res: Int) {
+      self.length *= res
+      self.breadth *= res
+      print(length)
+      print(breadth)
+   }
+}
+
+var val = area(length: 3, breadth: 5)
+val.scaleBy(res: 13)
+
+
+*
+class Rectangle {  
+   var length: Double  
+   var breadth: Double  
+   var area: Double  
+   init(fromLength length: Double, fromBreadth breadth: Double) {  
+      self.length = length  
+      self.breadth = breadth  
+      area = length * breadth  
+   }  
+   init(fromL l: Double, fromB b: Double) {  
+      self.length = l  
+      self.breadth = b  
+      area = l * b  
+   }  
+}  
+let a1 = Rectangle(fromLength: 6, fromBreadth: 12)  
+print("area is: \(a1.area)")  
+  
+let a2 = Rectangle(fromL: 36, fromB: 12)  
+print("area is: \(a2.area)")  
+
+
+*inheritance
+
+class Vehicle {
+    var currSpeed = 0.0 //stored property
+    var description: String { // computed property
+        return "Traveling at \(currSpeed) miles per hour"
+    }
+    func makeNoise() {
+        //do nothing
+    }
+}
+
+var someVehicle = Vehicle()
+print("Vehicle: \(someVehicle.description)")
+
+//creating a subclass
+class Bicycle: Vehicle {
+    var hasBasket = false
+}
+
+let bicycle = Bicycle()
+bicycle.hasBasket = true
+print(bicycle.hasBasket)
+
+bicycle.currSpeed = 15.0
+print("Bicycle: \(bicycle.description)")
+class HeroCycle : Bicycle {       //nherits all of the properties and methods from Bicycle, which in turn inherits all of the properties and methods from Vehicle.
+    var currNumOfPassengers = 0
+}
+
+let heroCycle = HeroCycle()
+heroCycle.hasBasket = true
+heroCycle.currNumOfPassengers = 2
+heroCycle.currSpeed = 22.0
+print("Hero Cyecle: \(heroCycle.description)")
+
+class Train: Vehicle {
+    override func makeNoise() {
+        print ("Jhok Jhok")
+    }
+}
+
+let train = Train()
+train.makeNoise()
+
+
+*Inheritence
+import Foundation
+
+/*
+Inheritance of constructor:
+Subclasses of Swift will not automatically inherit the constructor of the parent class. If they inherit, they will meet the following rules:
+1. If the subclass does not provide any designated initializers, then it will automatically inherit all designated initializers of the parent class
+2. If the subclass implements all the designated initializers of the parent class, no matter what it is implemented, it will automatically inherit all the convenient initializers of the parent class
+*/
+
+/*
+Rewrite of the constructor:
+1. The subclass constructor overrides the designated constructor of the parent class, and the override modifier must be added
+2. The constructor defined in the subclass is just the parameter list of the convenience constructor in the parent class, and the external parameter names are the same, not as overriding
+*/
+
+/*
+summary:
+1. If a subclass does not define any constructors, then it will automatically inherit all constructors in the parent class
+2. If a subclass overrides all designated initializers of the parent class, it will automatically inherit all convenience initializers in the parent class
+3. If any constructor in a subclass is exactly the same as the convenience constructor of the parent class, it does not count as overwriting, and only the constructor defined by the subclass will be displayed when the object is created.
+*/
+
+class Person {
+    
+    var name: String!
+    var weight: Double
+    
+    init(name: String) {
+        self.name = name
+        self.weight = 0.0
+    }
+    
+   //Define the specified constructor
+    init(name: String, weight: Double) {
+        self.name = name
+        self.weight = weight
+    }
+    
+   //Define the convenience constructor (modify with convenience)
+    convenience init(n name: String, w weight: Double) {
+       //The convenience constructor must call the designated constructor of the same class
+        self.init(name: name, weight: weight)
+    }
+    
+    convenience init(showStr: String) {
+        self.init(name: "", weight: 0.0)
+        print(showStr)
+    }
+}
+
+class Man: Person {
+    
+    var sex: String = "Male"
+    
+    override init(name: String) {
+       //The designated initializer of the subclass must call the designated initializer of the parent class
+        super.init(name: name)
+        self.name = name
+        self.weight = 0.0
+    }
+    
+    override init(name: String, weight: Double) {
+        super.init(name: name, weight: weight)
+        self.name = name
+        self.weight = weight
+    }
+    
+   //Defining the designated constructor is the same as the convenience constructor of the parent class, which is not a rewrite here
+    convenience init(showStr: String) {
+        self.init(name: "", weight: 0.0)
+        print(showStr)
+    }
+}
+
+var man = Man(name: "Rinpe", weight: 62.0)
+var man1 = Man(showStr: "HelloWorld")
+
+
+
+
+
+
+
+
+
+
+
+
+
+problem solve:
+
+1.Prime number:
+
+var arr = [Int]()
+func prime(l: Int, r: Int)
+{
+    
+    for x in l...r
+    {
+        var flag: Int = 1
+        for i in 2...x/2
+        {
+            if(x % i == 0)
+            {
+                flag = 0
+                break
+            }
+        }
+        if(flag == 1)
+        {
+            arr.append(x)
+        }
+    }
+}
+
+prime(l:10 , r: 25)
+print(arr)
+
+
+Without function:
+
+
+for i in 5...25
+{
+        var isPrime = 1
+        
+            for j in 2...i/2 
+            {
+                if i%j == 0 {  
+                    isPrime = 0
+                    break
+                }
+            }
+                
+        if isPrime == 1  {
+            print(i)
+        }
+}
+
+2. Complex num addition
+
+class Complex{
+    var x: Int
+    var y: Int
+     
+    init(x: Int , y: Int)
+    {
+        self.x = x
+        self.y = y
+    }
+    init()
+    {
+        self.x = 0
+        self.y = 0
+        print("Default")
+    }
+    func add(m: Complex) -> Complex
+    {
+        self.x = self.x + m.x
+        self.y = self.y + m.y
+        return self
+    }
+    func show()
+    {
+        print("\(x) + i \(y)")
+    }
+    
+}
+
+var a = Complex(x: 2 , y: 3)
+var b = Complex(x: 4 , y: 2)
+var c = Complex()
+c = a.add(m: b)
+c.show()
+
+
+//matrix unary and binary operation
+class a
+{
+    var mat = [[Int]](repeating: [Int](repeating: 0, count: 2) , count:2)
+    init(mat: [[Int]])
+    {
+        self.mat = mat
+    }
+    init()
+    {
+        
+    }
+    func addArray(nw: [[Int]]) -> a
+    {
+        
+        for i in 0...1{
+            for j in 0...1{
+                self.mat[i][j] = self.mat[i][j] + nw[i][j]
+            }
+        }
+            
+                
+        
+        return self
+    }
+    func addClass(nw: a) -> a
+    {
+        
+        for i in 0...1{
+            for j in 0...1{
+                self.mat[i][j] = self.mat[i][j] + nw.mat[i][j]
+            }
+        }
+            
+                
+        
+        return self
+    }
+    
+    
+    
+}
+
+prefix func -(x: a) -> a //unary operator overloading (prefix)
+{
+    //var m= [[Int]](repeating: [Int](repeating:0 , count:2) , count:2)
+    let m = a()
+    for i in 0...1
+    {
+        for j in 0...1
+        {
+            m.mat[i][j] = (-1) * x.mat[i][j]
+        }
+    }
+    return m
+}
+
+
+postfix func ++(x: a) -> a //unary operator overloading (postfix)
+{
+    let m = a()
+    for i in 0...1
+    {
+        for j in 0...1
+        {
+            m.mat[i][j] = 1 + x.mat[i][j]
+        }
+    }
+    return m
+}
+
+func +(left: a , right: a) -> [[Int]] //binary operator overloading
+{
+    var m = [[Int]](repeating: [Int](repeating: 0, count: 2) , count:2)
+    for i in 0...1{
+        for j in 0...1{
+            m[i][j] = left.mat[i][j] + right.mat[i][j]
+        }
+    }
+            
+                
+        
+    return m
+}
+
+var x = a(mat: [[2,3],[4,5]]) 
+var y = a(mat: [[4,5],[2,3]])
+//var z = a()
+//z = x.addClass(nw: y)
+var z = [[Int]](repeating: [Int](repeating: 0, count: 2) , count:2)
+//binary operation
+z = x + y
+print(z)
+//unary operation (prefix)
+var un = a()
+un = -x
+print(un.mat)
+//unary operation (postfix)
+var upost = a()
+upost = y++
+print(upost.mat)
+//func add(nw: [[Int]]) -> a
+
+
+//length of line and angle
+
+class line
+{
+    var x: Int
+    
+    init(x: Int)
+    {
+        self.x = x
+    }
+    func Length() -> Int
+    {
+        return x
+    }
+}
+
+class angle: line
+{
+    var y: Int
+    
+    init(x: Int , y: Int)
+    {
+        self.y = y
+        super.init(x: x)
+    }
+    override func Length() -> Int
+    {
+        return y + super.Length()
+    }
+}
+
+var ln1 = line(x: 5)
+print("The length of line is : \(ln1.Length()) ")
+var ang1 = angle(x:5 , y:3)
+print("The length of line is : \(ang1.Length()) ")
+
+
+//count frequency of each element in an array.
+
+import Foundation
+var oneD = [Int](repeating: 0 , count:10)
+for i in 0..<10
+{
+    oneD[i] = Int.random(in: 1...5)
+}
+
+print(oneD)
+
+var dict = [Int : Int]()
+
+for i in 0..<10
+{
+    dict[oneD[i]] = 0
+}
+
+for i in 0..<10
+{
+    //must declare x and y as let and have to use !
+    let x: Int! = oneD[i]
+    let y: Int! = dict[x]
+    dict[oneD[i]] = y + 1
+}
+print(dict)
+
+var sdict = dict.keys.sorted()
+print(sdict)
+
+
+//vowel and consonent count in a word
+var x: String = "iftee is boss,soss ."
+var vowel: Int = 0
+var cons: Int = 0
+for c in x
+{
+    switch(c)
+    {
+        case "a" , "e" , "i" , "o" ,"u":
+            vowel = vowel + 1
+        case " ",",",".":
+            fallthrough
+        default:
+            cons = cons + 1
+    }
+    
+}
+print(vowel)
+print(cons)
+
+
+//letter count in a word
+var x: String = "iftee is boss,soss ."
+var letter: Int = 0
+var cons: Int = 0
+for c in x
+{
+    if (c >= "a" && c <= "z")
+    {
+        letter = letter + 1
+    }
+        
+    
+}
+print(letter)
+
